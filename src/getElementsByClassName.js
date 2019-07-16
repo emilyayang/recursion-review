@@ -19,18 +19,17 @@ var getElementsByClassName = function(className) {
       //if className matches add the .class name to the result 
   var body = document.body;
   var result = [];
-  return function(element) {
-    if (element.hasChildNodes()) {
-      for (var element = 0; element < body.length; element++) {
-        return getElementsByClassName(element.childNodes);
-      } else {
-      if (element.className === className) {
-        result.push(element);
-  console.log(element)        
-  console.log(element.className)        
-      }
-      }
+  var getElements = function(element) {
+    if (element.classList !== undefined && element.classList.contains(className)) {
+      result.push(element);      
     }
+    if (element.hasChildNodes()) {
+      for (var i = 0; i < element.childNodes.length; i++) {
+        getElements(element.childNodes[i]);
+      } 
+    } 
   }
+  getElements(body);
   return result;
 };
+
